@@ -5,13 +5,12 @@ require 'mpc-monkeypatch'
 require 'erb'
 require 'json'
 require 'sinatra'
-MPD_HOST="example.org"
+MPD_HOST="localhost"
 MPD_PORT=6600
 STREAM_URL="http://example.org:8000/mpd.ogg"
 
 get '/' do
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  puts "about to start the magic"
   mpc_stuff = @mpc.ping
   @title = mpc_stuff[:title]
   @album = mpc_stuff[:album]
