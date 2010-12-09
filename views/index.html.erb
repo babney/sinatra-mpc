@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sinatra MPD client</title>
+</head>
+<body>
+  <p>well it looks like right now we're listening to <span id="current_title"> <%= @title %> </span> by <span id="current_artist"> <%= @artist %> </span> from their album <span id="current_album"> <%= @album %> </span>.</p>
+  <p id="player"><audio id="player_audio" src=<%= STREAM_URL %> autoplay="" loop=""></audio></p>
+  <a href="#" style="padding:10px;" id="prev">&lt;&lt;</a><a href="#" style="padding:10px;" id="playpause"><%= @playing_sym %></a><a href="#" style="padding:10px;" id="next">&gt;&gt;</a>
+  <p>I guess you might want to listen to some other stuff so here it is</p>
+  <ul>
+  <% @songs.each do |song| %>
+    <li style="cursor:pointer" class="playlist_item" id="<%= song[:pos]%>"><%= song[:artist] %> - <%= song[:title]%> - <%= song[:album] %></li>
+  <% end %>
+  </ul>
+</body>
+<!-- change the src to point to your local copy of jquery. TODO make this configurable, use a template, etc.-->
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.4.4.min.js" ></script>
+<script type="text/javascript">
+  $(".playlist_item").live("click", function(){
+    $.getJSON('/switch_track', {pos: $(this).attr("id")}, function(data){
+      replace_current(data)
+    })
+  })
+  $("#prev").live("click", function(){
+    $.getJSON('/prev', {}, function(data){
+      replace_current(data)
+    })
+  })
+  $("#next").live("click", function(){
+    $.getJSON('/next', {}, function(data){
+      replace_current(data)
+    })
+  })
+  $("#playpause").live("click", function(){
+    $.getJSON('/playpause', {}, function(data){
+      $("#playpause").html(data.sym)
+      kill_player()
+    })
+  })
+  
+  function replace_current(data){
+    $("#current_title").html(data.title)
+    $("#current_artist").html(data.artist)
+    $("#current_album").html(data.album)
+    kill_player()
+  }
+  function restart_player()
+  {
+    setTimeout("kill_player()",8000);
+  }
+  function kill_player(){
+    console.log("reloading player")
+    $("#player").empty()
+    $("#player").html('<audio id="player_audio" src=<%= STREAM_URL %> autoplay="" loop=""></audio>')
+    $("#player_audio")[0].play()
+  }
+</script>
+</html>

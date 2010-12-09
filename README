@@ -1,0 +1,20 @@
+This is pretty buggy and incomplete at the moment. No library support, no changing playlists, no nothing.
+
+What works:
+-view the current playlist
+-play/pause
+-next
+-previous
+-change to a track in the current playlist
+
+Requirements:
+-Sinatra
+-jQuery
+-the mpc gem, which does not seem to be on github, so I've included a monkeypatch to fix one apparent bug and add one method. If I'm wrong and it is on github I'll fork it and fix it, but this is it for now.
+-an MPD server, set up to stream through icecast or the builtin streamer.
+
+TODO:
+-everything!
+
+
+This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
