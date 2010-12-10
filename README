@@ -10,11 +10,18 @@ What works:
 Requirements:
 -Sinatra
 -jQuery
--the mpc gem, which does not seem to be on github, so I've included a monkeypatch to fix one apparent bug and add one method. If I'm wrong and it is on github I'll fork it and fix it, but this is it for now.
+-the mpc gem, (requires ruby-tree) which does not seem to be on github, so I've included a monkeypatch to fix one apparent bug and add one method. If I'm wrong and it is on github I'll fork it and fix it, but this is it for now.
+-the json gem
 -an MPD server, set up to stream through icecast or the builtin streamer.
 
 TODO:
--everything!
+-fix song-end bug
+-library/playlist CRUD support
+-CSS and other beautification
+-general drying up of the code, adding config files, etc.
+-support for mp3 streams
+-support for browsers other than chrome (firefox works if you use icecast instead of the builtin streamer. Maybe mpd isn't sending the MIME type?)
+-graceful fallback to jorbis or other player for older browsers
 
 
 This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
