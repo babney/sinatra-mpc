@@ -1,18 +1,34 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <link href="css/site.css" rel="stylesheet" type="text/css" />
   <title>Sinatra MPD client</title>
 </head>
 <body>
-  <p>Now playing: <span id="current_title"> <%= @title %> </span> by <span id="current_artist"> <%= @artist %> </span> from their album <span id="current_album"> <%= @album %> </span>.</p>
-  <p id="player"><audio id="player_audio" autoplay="" loop=""><source src=<%= STREAM_URL %> type="audio/ogg; codecs=vorbis"/></audio></p>
-  <a href="#" style="padding:10px;" id="prev">&lt;&lt;</a><a href="#" style="padding:10px;" id="playpause"><%= @playing_sym %></a><a href="#" style="padding:10px;" id="next">&gt;&gt;</a>
-  <p>Current Playlist</p>
-  <ul>
-  <% @songs.each do |song| %>
-    <li style="cursor:pointer" class="playlist_item" id="<%= song[:pos]%>"><%= song[:artist] %> - <%= song[:title]%> - <%= song[:album] %></li>
-  <% end %>
-  </ul>
+  <div class="container">
+    <div class="now-playing">
+      <p id="current_title"> <%= @title %> </p>
+      <p id="current_artist"> <%= @artist %></p>
+      <p id="current_album"> <%= @album %></p>
+    </div>
+    <div class="player">
+      <span id="player">
+        <audio id="player_audio" autoplay="" loop="">
+          <source src=<%= STREAM_URL %> type="audio/ogg; codecs=vorbis"/>
+        </audio>
+      </span>
+    </div>
+    <div class="controls">
+      <a href="#" style="padding:10px;" id="prev">&lt;&lt;</a><a href="#" style="padding:10px;" id="playpause"><%= @playing_sym %></a><a href="#" style="padding:10px;" id="next">&gt;&gt;</a>
+    </div>
+    <div class="playlist">
+      <ul>
+      <% @songs.each do |song| %>
+        <li class="playlist-item" id="<%= song[:pos]%>"><%= song[:artist] %> - <%= song[:title]%> - <%= song[:album] %></li>
+      <% end %>
+      </ul>
+     </div>
+  </div>
 </body>
 <!-- change the src to point to your local copy of jquery. TODO make this configurable, use a template, etc.-->
 <script type="text/javascript" src="js/jquery-1.4.4.min.js" ></script>
