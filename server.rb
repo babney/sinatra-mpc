@@ -22,18 +22,14 @@ end
 
 get '/next' do
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  content_type :json
   @mpc.next()
-  current = @mpc.current_song
-  {:title => current[:title], :album => current[:album], :artist => current[:artist]}.to_json
+  send_current_track
 end
 
 get '/prev' do
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  content_type :json
   @mpc.previous()
-  current = @mpc.current_song
-  {:title => current[:title], :album => current[:album], :artist => current[:artist]}.to_json
+  send_current_track  
 end
 
 get '/playpause' do
@@ -52,8 +48,12 @@ end
 
 get '/switch_track' do
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  content_type :json
   @mpc.seek(0,params[:pos])
+  send_current_track
+end
+
+def send_current_track
+  content_type :json
   current = @mpc.current_song
   {:title => current[:title], :album => current[:album], :artist => current[:artist]}.to_json
 end
