@@ -23,6 +23,7 @@ function replace_current(data){
   $("#current_title").html(data.title)
   $("#current_artist").html(data.artist)
   $("#current_album").html(data.album)
+  $("#playpause").html(data.sym)
   kill_player()
 }
 

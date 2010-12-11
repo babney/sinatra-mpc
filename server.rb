@@ -12,7 +12,6 @@ $mpc = Mpc.new(MPD_HOST, MPD_PORT)
 $library = $mpc.list_library
 
 get '/' do
-  @playing_sym = $mpc.playing? ? "||" : ">"
   erb :"index.html"
 end
 
@@ -32,16 +31,12 @@ get '/stop' do
 end
 
 get '/playpause' do
-  content_type :json
-  sym = ""
   if !$mpc.playing?
     $mpc.play
-    sym = "||"
   else
     $mpc.pause
-    sym = ">"
   end
-  {:sym => sym}.to_json
+  send_current_track
 end
 
 get '/current_track' do
@@ -62,6 +57,12 @@ end
 
 def send_current_track
   content_type :json
+  sym = ""
+  if $mpc.playing?
+    sym = "||"
+  else
+    sym = ">"
+  end
   current = $mpc.current_song
-  {:title => current[:title], :album => current[:album], :artist => current[:artist]}.to_json
+  {:title => current[:title], :album => current[:album], :artist => current[:artist], :sym => sym}.to_json
 end
