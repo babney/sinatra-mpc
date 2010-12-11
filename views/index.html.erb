@@ -7,9 +7,9 @@
 <body>
   <div class="container">
     <div class="now-playing">
-      <p id="current_title"> <%= @title %> </p>
-      <p id="current_artist"> <%= @artist %></p>
-      <p id="current_album"> <%= @album %></p>
+      <p id="current_title"></p>
+      <p id="current_artist"></p>
+      <p id="current_album"></p>
     </div>
     <div class="player">
       <span id="player">
@@ -26,42 +26,10 @@
     </div>
     <div class="playlist">
       <ul>
-      <% @songs.each do |song| %>
-        <li class="playlist-item" id="<%= song[:pos]%>"><%= song[:artist] %> - <%= song[:title]%> - <%= song[:album] %></li>
-      <% end %>
       </ul>
      </div>
   </div>
 </body>
-<script type="text/javascript" src="js/jquery-1.4.4.min.js" ></script>
-<script type="text/javascript">
-  $(".playlist-item").live("click", function(){
-    $.getJSON('/switch_track', {pos: $(this).attr("id")}, function(data){
-      replace_current(data)
-    })
-  })
-  
-  $(".controls span").live("click", function(){
-    $.getJSON($(this).attr("id"), {}, function(data){
-      replace_current(data)
-    })
-  })
-
-  
-  function replace_current(data){
-    $("#current_title").html(data.title)
-    $("#current_artist").html(data.artist)
-    $("#current_album").html(data.album)
-    kill_player()
-  }
-  function restart_player()
-  {
-    setTimeout("kill_player()",8000);
-  }
-  function kill_player(){
-    $("#player").empty()
-    $("#player").html('<audio id="player_audio" autoplay="" loop=""><source src=<%= STREAM_URL %> type="audio/ogg; codecs=vorbis"/></audio>')
-    $("#player_audio")[0].play()
-  }
-</script>
+<script type="text/javascript" src="js/jquery-1.4.4.min.js"></script>
+<script type="text/javascript" src="js/sinatra-mpc.js"></script>
 </html>
