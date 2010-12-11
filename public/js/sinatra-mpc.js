@@ -31,7 +31,11 @@ function replace_playlist(data){
   console.log(playlist)
   playlist.empty()
   $.each(data, function(index, playlist_item){
-    playlist.append('<li class="playlist-item" id="'+ playlist_item.pos + '">' + playlist_item.artist + ' - ' + playlist_item.title + ' - ' + playlist_item.album + '</li>')
+    playlist.append('<li class="playlist-item" id="'
+    + playlist_item.pos + '">'
+    + playlist_item.artist + ' - '
+    + playlist_item.title + ' - '
+    + playlist_item.album + '</li>')
   })
 }
 
