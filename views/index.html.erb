@@ -15,7 +15,7 @@
   </ul>
 </body>
 <!-- change the src to point to your local copy of jquery. TODO make this configurable, use a template, etc.-->
-<script type="text/javascript" src="jquery-1.4.4.min.js" ></script>
+<script type="text/javascript" src="js/jquery-1.4.4.min.js" ></script>
 <script type="text/javascript">
   $(".playlist_item").live("click", function(){
     $.getJSON('/switch_track', {pos: $(this).attr("id")}, function(data){
