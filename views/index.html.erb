@@ -4,10 +4,10 @@
   <title>Sinatra MPD client</title>
 </head>
 <body>
-  <p>well it looks like right now we're listening to <span id="current_title"> <%= @title %> </span> by <span id="current_artist"> <%= @artist %> </span> from their album <span id="current_album"> <%= @album %> </span>.</p>
+  <p>Now playing: <span id="current_title"> <%= @title %> </span> by <span id="current_artist"> <%= @artist %> </span> from their album <span id="current_album"> <%= @album %> </span>.</p>
   <p id="player"><audio id="player_audio" autoplay="" loop=""><source src=<%= STREAM_URL %> type="audio/ogg; codecs=vorbis"/></audio></p>
   <a href="#" style="padding:10px;" id="prev">&lt;&lt;</a><a href="#" style="padding:10px;" id="playpause"><%= @playing_sym %></a><a href="#" style="padding:10px;" id="next">&gt;&gt;</a>
-  <p>I guess you might want to listen to some other stuff so here it is</p>
+  <p>Current Playlist</p>
   <ul>
   <% @songs.each do |song| %>
     <li style="cursor:pointer" class="playlist_item" id="<%= song[:pos]%>"><%= song[:artist] %> - <%= song[:title]%> - <%= song[:album] %></li>
