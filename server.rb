@@ -5,9 +5,7 @@ require 'mpc-monkeypatch'
 require 'erb'
 require 'json'
 require 'sinatra'
-MPD_HOST="localhost"
-MPD_PORT=6600
-STREAM_URL="http://example.org:8000/mpd.ogg"
+require 'settings'
 
 get '/' do
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
