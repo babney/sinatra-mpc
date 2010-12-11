@@ -30,6 +30,12 @@ get '/prev' do
   send_current_track  
 end
 
+get '/stop' do
+  @mpc = Mpc.new(MPD_HOST, MPD_PORT)
+  @mpc.stop()
+  send_current_track
+end
+
 get '/playpause' do
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
   content_type :json
@@ -52,6 +58,6 @@ end
 
 def send_current_track
   content_type :json
-  current = @mpc.current_song
+  current = @mpc.ping
   {:title => current[:title], :album => current[:album], :artist => current[:artist]}.to_json
 end

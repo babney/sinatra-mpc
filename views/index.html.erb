@@ -19,7 +19,10 @@
       </span>
     </div>
     <div class="controls">
-      <a href="#" style="padding:10px;" id="prev">&lt;&lt;</a><a href="#" style="padding:10px;" id="playpause"><%= @playing_sym %></a><a href="#" style="padding:10px;" id="next">&gt;&gt;</a>
+      <span id="prev">&lt;&lt;</span>
+      <span id="stop">[]</span>
+      <span id="playpause"><%= @playing_sym %></span>
+      <span id="next">&gt;&gt;</span>
     </div>
     <div class="playlist">
       <ul>
@@ -30,30 +33,20 @@
      </div>
   </div>
 </body>
-<!-- change the src to point to your local copy of jquery. TODO make this configurable, use a template, etc.-->
 <script type="text/javascript" src="js/jquery-1.4.4.min.js" ></script>
 <script type="text/javascript">
-  $(".playlist_item").live("click", function(){
+  $(".playlist-item").live("click", function(){
     $.getJSON('/switch_track', {pos: $(this).attr("id")}, function(data){
       replace_current(data)
     })
   })
-  $("#prev").live("click", function(){
-    $.getJSON('/prev', {}, function(data){
+  
+  $(".controls span").live("click", function(){
+    $.getJSON($(this).attr("id"), {}, function(data){
       replace_current(data)
     })
   })
-  $("#next").live("click", function(){
-    $.getJSON('/next', {}, function(data){
-      replace_current(data)
-    })
-  })
-  $("#playpause").live("click", function(){
-    $.getJSON('/playpause', {}, function(data){
-      $("#playpause").html(data.sym)
-      kill_player()
-    })
-  })
+
   
   function replace_current(data){
     $("#current_title").html(data.title)
@@ -66,7 +59,6 @@
     setTimeout("kill_player()",8000);
   }
   function kill_player(){
-    console.log("reloading player")
     $("#player").empty()
     $("#player").html('<audio id="player_audio" autoplay="" loop=""><source src=<%= STREAM_URL %> type="audio/ogg; codecs=vorbis"/></audio>')
     $("#player_audio")[0].play()
