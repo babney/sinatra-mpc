@@ -12,11 +12,6 @@ $mpc = Mpc.new(MPD_HOST, MPD_PORT)
 $library = $mpc.list_library
 
 get '/' do
-  #mpc_stuff = $mpc.current_song
-  #@title = mpc_stuff[:title]
-  #@album = mpc_stuff[:album]
-  #@artist = mpc_stuff[:artist]
-  #@songs = $mpc.current_playlist_songs
   @playing_sym = $mpc.playing? ? "||" : ">"
   erb :"index.html"
 end
@@ -55,6 +50,7 @@ end
 
 get '/current_playlist' do
   content_type :json
+  #this explodes when using the global mpc connection, need to find out why
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
   @mpc.current_playlist_songs.to_json
 end
