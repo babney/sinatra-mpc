@@ -7,6 +7,8 @@ require 'json'
 require 'sinatra'
 require 'settings'
 
+#enable :sessions
+
 #ugh, this seems really dangerous but I don't feel like writing a wrapper around Mpc at the moment
 mpc = Mpc.new(MPD_HOST, MPD_PORT)
 $library = mpc.list_library
@@ -14,6 +16,7 @@ $library = mpc.list_library
 $library_pos = $library
 
 get '/' do
+#  session[:library_pos] = $library.root if session[:library_pos].blank?
   erb :"index.html"
 end
 

@@ -1,7 +1,11 @@
-#just a little shortcut...
+#some new methods...
 class Mpc
   def playing?
     !paused? && !stopped?
+  end
+  
+  def putshack(command)
+    puts(command)
   end
 end
 
