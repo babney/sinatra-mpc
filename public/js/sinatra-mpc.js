@@ -26,7 +26,7 @@ function replace_library_view(data){
   var lib = $(".library ul")
   lib.empty()
   $.each(data, function(index, item){
-    lib.append('<li class="library-item" id="' + index + '">' + item.name + '</li>')
+    lib.append('<li class="library-item" id="' + index + '">' + item + '</li>')
   })
 }
 

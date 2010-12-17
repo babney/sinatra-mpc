@@ -1,7 +1,7 @@
+require 'bundler'
 require 'socket'
 require 'tree'
 require 'mpc'
-require 'mpc-monkeypatch'
 require 'erb'
 require 'json'
 require 'sinatra'
@@ -71,8 +71,8 @@ get '/show_library' do
     @names << node.name
   end
   @names.to_json
-end
 
+end
 get '/cd' do
   content_type :json
   #let's just be lazy and do it by index for now, maybe it'll even be in order

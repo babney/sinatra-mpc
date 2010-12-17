@@ -1,0 +1,26 @@
+GIT
+  remote: git://github.com/babney/mpc.git
+  revision: 815ecbf0fc0b85d4d3c510b15f8920ffe277156e
+  specs:
+    mpc (0.8)
+      rubytree
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    json (1.4.6)
+    rack (1.2.1)
+    rubytree (0.8.1)
+    sinatra (1.1.0)
+      rack (~> 1.1)
+      tilt (~> 1.1)
+    tilt (1.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  json
+  mpc!
+  rubytree
+  sinatra
