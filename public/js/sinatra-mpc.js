@@ -5,6 +5,9 @@ $(document).ready(function(){
   $.getJSON('/current_playlist', {}, function(data){
     replace_playlist(data)
   })
+  $.getJSON('/show_library', {}, function(data){
+    replace_library_view(data)
+  })
 })
 
 $(".playlist-item").live("click", function(){
@@ -18,6 +21,14 @@ $(".controls span").live("click", function(){
     replace_current(data)
   })
 })
+
+function replace_library_view(data){
+  var lib = $(".library ul")
+  lib.empty()
+  $.each(data, function(index, item){
+    lib.append('<li class="library-item" id="' + index + '">' + item.name + '</li>')
+  })
+}
 
 function replace_current(data){
   $("#current_title").html(data.title)
