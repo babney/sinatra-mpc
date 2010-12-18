@@ -17,7 +17,7 @@ $(".playlist-item").live("click", function(){
 })
 
 $(".controls span").live("click", function(){
-  $.getJSON($(this).attr("id"), {}, function(data){
+  $.getJSON("/controls/" + $(this).attr("id"), {}, function(data){
     replace_current(data)
   })
 })
