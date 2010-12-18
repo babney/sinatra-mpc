@@ -5,6 +5,8 @@ require 'mpc'
 require 'erb'
 require 'json'
 require 'sinatra'
+require 'settings-default'
+#this should overwrite the defaults, I need to read up on sinatra app configuration to do this right
 require 'settings'
 
 enable :sessions
