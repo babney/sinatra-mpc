@@ -20,7 +20,7 @@ enable :sessions
 $library = Mpc.new(MPD_HOST, MPD_PORT).list_library
 
 get '/' do
-  #session[:library_pos] = $library.root if session[:library_pos].blank?
+  session[:cwd] = "/" if session[:library_pos].nil?
   erb :"index.html"
 end
 
@@ -72,17 +72,19 @@ end
 
 get '/show_dir' do
   content_type :json
-  #let's just be lazy and do it by index for now, maybe it'll even be in order
-  dir = "/"
-  if params[:dir] == ".."
-    dir = $library_pos.parent
+  session[:cwd] = params[:dir]
+  dir = params[:dir]
+  pos = $library # start from the root and walk down
+  segments = dir.split "/"
+  puts "DEBUG DEBUG DEBUG I have #{segments}"
+  segments.each do |segment|
+    pos=pos[segment]
   end
-  #$library_pos = newdir
-  @names = []
-  $library.children.each do |node|
-    @names << node.name
+  names = []
+  pos.children.each do |child|
+    names << child.name
   end
-  @names.to_json
+  names.to_json
 end
 
 def send_current_track
