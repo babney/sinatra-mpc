@@ -5,7 +5,7 @@ $(document).ready(function(){
   $.getJSON('/current_playlist', {}, function(data){
     replace_playlist(data)
   })
-  $.getJSON('/show_library', {}, function(data){
+  $.getJSON('/show_dir', {dir: "/"}, function(data){
     replace_library_view(data)
   })
 })
@@ -34,7 +34,14 @@ function replace_current(data){
   $("#current_title").html(data.title)
   $("#current_artist").html(data.artist)
   $("#current_album").html(data.album)
-  $("#playpause").html(data.sym)
+  if(data.playing){
+    $("#play").hide()
+    $("#pause").show()
+  }
+  else{
+    $("#pause").hide()
+    $("#play").show()
+  }
   kill_player()
 }
 

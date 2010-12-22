@@ -5,9 +5,14 @@ require 'mpc'
 require 'erb'
 require 'json'
 require 'sinatra'
-require 'settings-default'
+
 #this should overwrite the defaults, I need to read up on sinatra app configuration to do this right
-require 'settings'
+begin
+  require 'settings'
+rescue
+  puts "couldn't find a settings.rb file, falling back to the defaults"
+  require 'settings-default'
+end
 
 enable :sessions
 
@@ -21,14 +26,19 @@ end
 
 get '/controls/:control' do
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  if params[:control].match(/next|prev|stop/)
-    eval("@mpc.#{params[:control]}")
-  elsif params[:control].match(/playpause/)
-   if !@mpc.playing?
-    @mpc.play
-   else
-    @mpc.pause
-   end
+  if params[:control].match(/next|previous|stop|play|pause/)
+    retried = false
+    begin
+      eval("@mpc.#{params[:control]}")
+    rescue
+      if !retried
+        sleep 2
+        retried = true
+        puts "retrying"
+        @mpc = Mpc.new(MPD_HOST, MPD_PORT)
+        retry
+      end
+    end
   end
   send_current_track
 end
@@ -45,30 +55,31 @@ end
 
 get '/switch_track' do
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  @mpc.seek(0,params[:pos])
+  retried = false
+  begin
+    @mpc.seek(0,params[:pos])
+  rescue
+    if !retried
+      sleep 2
+      retried = true
+      puts "retrying"
+      @mpc = Mpc.new(MPD_HOST, MPD_PORT)
+      retry
+    end
+  end
   send_current_track
 end
 
-get '/show_library' do
-  show_library
-end
-
-get '/cd' do
+get '/show_dir' do
+  content_type :json
   #let's just be lazy and do it by index for now, maybe it'll even be in order
-  newdir = nil
-  unless params[:index] == ".."
-    newdir = $library_pos[params[:index].to_i]
-  else
-    newdir = $library_pos.parent
+  dir = "/"
+  if params[:dir] == ".."
+    dir = $library_pos.parent
   end
-  $library_pos = newdir
-  show_library
-end
-
-def show_library
-    content_type :json
+  #$library_pos = newdir
   @names = []
-  $library_pos.children.each do |node|
+  $library.children.each do |node|
     @names << node.name
   end
   @names.to_json
@@ -77,12 +88,11 @@ end
 def send_current_track
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
   content_type :json
-  sym = ""
-  if @mpc.playing?
-    sym = "||"
-  else
-    sym = ">"
-  end
+  playing = @mpc.playing?
   current = @mpc.current_song
-  {:title => current[:title], :album => current[:album], :artist => current[:artist], :sym => sym}.to_json
+  if current.nil?
+    {:playing => playing}.to_json
+  else
+    {:title => current[:title], :album => current[:album], :artist => current[:artist], :playing => playing}.to_json
+  end
 end
