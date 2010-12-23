@@ -5,9 +5,13 @@ $(document).ready(function(){
   $.getJSON('/current_playlist', {}, function(data){
     replace_playlist(data)
   })
-  $.getJSON('/show_dir', {dir: "/mp3/a"}, function(data){
+  $.getJSON('/show_dir', {dir: "/"}, function(data){
     replace_library_view(data)
   })
+})
+
+$(".library-item").live("click", function(){
+	$.getJSON('/show_dir', {dir: "/"})
 })
 
 $(".playlist-item").live("click", function(){

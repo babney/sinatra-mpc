@@ -1,10 +1,5 @@
-require 'bundler'
 require 'socket'
-require 'tree'
-require 'mpc'
 require 'erb'
-require 'json'
-require 'sinatra'
 
 #this should overwrite the defaults, I need to read up on sinatra app configuration to do this right
 begin
@@ -14,13 +9,17 @@ rescue
   require 'settings-default'
 end
 
+#using rackup means I have to set these manually. Lame.
+set :views, File.dirname(__FILE__) + '/views'
+set :public, File.dirname(__FILE__) + '/public'
+
 enable :sessions
 
 #ugh, this seems really dangerous but I don't feel like writing a wrapper around Mpc at the moment
 $library = Mpc.new(MPD_HOST, MPD_PORT).list_library
 
 get '/' do
-  session[:cwd] = "/" if session[:library_pos].nil?
+  session[:cwd] = "/" if session[:cwd].nil?
   erb :"index.html"
 end
 
@@ -78,7 +77,7 @@ get '/show_dir' do
   segments = dir.split "/"
   puts "DEBUG DEBUG DEBUG I have #{segments}"
   segments.each do |segment|
-    pos=pos[segment]
+    pos=pos[segment] unless pos[segment].nil?
   end
   names = []
   pos.children.each do |child|

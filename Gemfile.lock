@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/babney/mpc.git
-  revision: 815ecbf0fc0b85d4d3c510b15f8920ffe277156e
+  revision: e2e453ea99e2da03722da71c143356b7e4538081
   specs:
     mpc (0.8)
       rubytree
