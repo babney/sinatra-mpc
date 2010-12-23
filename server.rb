@@ -71,19 +71,53 @@ end
 
 get '/show_dir' do
   content_type :json
-  session[:cwd] = params[:dir]
-  dir = params[:dir]
+  segments = []
+  #session[:cwd] = params[:dir]
+  if params[:dir].nil?
+    dir = session[:cwd]
+    segments = dir.split "/"
+  elsif !(params[:dir] == ".." || params[:dir] == "/")
+    dir = session[:cwd] + "/" + params[:dir]
+    segments = dir.split "/"
+  elsif params[:dir] == ".."
+    segments = session[:cwd].split("/")[0..-2]
+    dir = segments.join "/"
+  elsif params[:dir] == "/"
+    segments = []
+    dir = "/"
+  else # nil?
+    dir = session[:cwd]
+    segments = dir.split "/"
+  end
+  session[:cwd] = dir # unsafe?
   pos = $library # start from the root and walk down
-  segments = dir.split "/"
-  puts "DEBUG DEBUG DEBUG I have #{segments}"
+  
+  #puts "DEBUG DEBUG DEBUG I have #{segments}"
   segments.each do |segment|
     pos=pos[segment] unless pos[segment].nil?
   end
   names = []
-  pos.children.each do |child|
-    names << child.name
+  unless pos.is_leaf?
+    pos.children.each do |child|
+      names << child.name
+    end
+  else
+    # stay put, give all siblings and self as names, and fix session[:cwd]
+    # maybe we should just do a playlist add?
+    pos.parent.children.each do |child|
+      names << child.name
+    end
+    session[:cwd] = session[:cwd].split("/")[0..-2].join("/")
   end
   names.to_json
+end
+
+get '/add_to_playlist' do
+  #not done yet
+  content_type :json
+  mpc = Mpc.new(MPD_HOST, MPD_PORT)
+  addme = session[:cwd] + "/" + params[:add]
+  mpc.add_to_playlist(addme)
 end
 
 def send_current_track

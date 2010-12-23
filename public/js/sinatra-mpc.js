@@ -5,13 +5,19 @@ $(document).ready(function(){
   $.getJSON('/current_playlist', {}, function(data){
     replace_playlist(data)
   })
-  $.getJSON('/show_dir', {dir: "/"}, function(data){
+  $.getJSON('/show_dir', {}, function(data){
     replace_library_view(data)
   })
 })
 
 $(".library-item").live("click", function(){
-	$.getJSON('/show_dir', {dir: "/"})
+	$.getJSON('/show_dir', {dir: $(this).html()}, function(data){
+    replace_library_view(data)
+  })
+})
+
+$(".library-item .add").live("click", function(){
+  return false;
 })
 
 $(".playlist-item").live("click", function(){
@@ -29,8 +35,9 @@ $(".controls span").live("click", function(){
 function replace_library_view(data){
   var lib = $(".library ul")
   lib.empty()
+  lib.append('<li class="library-item">..</li>')
   $.each(data, function(index, item){
-    lib.append('<li class="library-item" id="' + index + '">' + item + '</li>')
+    lib.append('<li class="library-item">' + item + '</li>')
   })
 }
 
