@@ -10,14 +10,16 @@ $(document).ready(function(){
   })
 })
 
-$(".library-item").live("click", function(){
+$(".library-item .name").live("click", function(){
 	$.getJSON('/show_dir', {dir: $(this).html()}, function(data){
     replace_library_view(data)
   })
 })
 
 $(".library-item .add").live("click", function(){
-  return false;
+  $.getJSON('/add_to_playlist', {addme: $(this).parent().find(".name").html()}, function(data){
+    replace_playlist(data)
+  })
 })
 
 $(".playlist-item").live("click", function(){
@@ -26,18 +28,24 @@ $(".playlist-item").live("click", function(){
   })
 })
 
-$(".controls span").live("click", function(){
+$(".controls span.control").live("click", function(){
   $.getJSON("/controls/" + $(this).attr("id"), {}, function(data){
     replace_current(data)
+  })
+})
+
+$("#clear-playlist").live("click", function(){
+  $.getJSON('/clear_playlist', {}, function(data){
+    replace_playlist(data)
   })
 })
 
 function replace_library_view(data){
   var lib = $(".library ul")
   lib.empty()
-  lib.append('<li class="library-item">..</li>')
+  lib.append('<li class="library-item"><span class="name">..</span></li>')
   $.each(data, function(index, item){
-    lib.append('<li class="library-item">' + item + '</li>')
+    lib.append('<li class="library-item"><span class="name">' + item + '</span><span class="add">+</span></li>')
   })
 }
 

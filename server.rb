@@ -113,11 +113,23 @@ get '/show_dir' do
 end
 
 get '/add_to_playlist' do
-  #not done yet
   content_type :json
-  mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  addme = session[:cwd] + "/" + params[:add]
-  mpc.add_to_playlist(addme)
+  @mpc = Mpc.new(MPD_HOST, MPD_PORT)
+  addme = session[:cwd] + "/" + params[:addme]
+  fixme = addme.split("/")
+  fixme.delete("")
+  addme = fixme.join("/")
+  puts "trying to add #{addme}"
+  @mpc.add_to_playlist(addme)
+  @mpc.current_playlist_songs.to_json
+end
+
+get '/clear_playlist' do
+  content_type :json
+  @mpc = Mpc.new(MPD_HOST, MPD_PORT)
+  @mpc.clear!
+  #should be empty now
+  @mpc.current_playlist_songs.to_json
 end
 
 def send_current_track

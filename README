@@ -1,4 +1,4 @@
-This is pretty buggy and incomplete at the moment. No library support, no changing playlists, no nothing.
+This is an attempt to create an mpd client using Sinatra, jQuery, and html5 <audio> elements. Things are kind of buggy at the moment but if you don't do crazy stuff it should work in general.
 
 What works:
 -view the current playlist
@@ -6,19 +6,20 @@ What works:
 -next
 -previous
 -change to a track in the current playlist
+-clear the playlist
+-add a track or folder to the playlist
 
 Requirements:
 -Sinatra
 -jQuery
 -the mpc gem, (requires ruby-tree), specifically my fork of it for now which fixes a small bug and adds a 'playing?' method
 -the json gem
--an MPD server, set up to stream through icecast or the builtin streamer. Icecast seems to work better with Firefox.
+-an MPD server, set up to stream through icecast or the builtin streamer. Icecast seems to work better with Firefox, I think it may have something to do with MIME types but I haven't investigated it yet.
 
 TODO:
 -fix song-end bug
--library/playlist CRUD support
--CSS and other beautification
--general drying up of the code, adding config files, etc.
+-polling or pushing track progress and allowing the user to change the track position (jQuery-ui slider?)
+-general drying up of the code, adding config files that aren't so hacky, etc.
 -support for mp3 streams
 -graceful fallback to jorbis or other player for older browsers
 
