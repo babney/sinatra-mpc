@@ -1,7 +1,5 @@
 $(document).ready(function(){
-  $.getJSON('/current_track', {}, function(data){
-    replace_current(data)
-  })
+  get_current(true)
   $.getJSON('/current_playlist', {}, function(data){
     replace_playlist(data)
   })
@@ -9,6 +7,14 @@ $(document).ready(function(){
     replace_library_view(data)
   })
 })
+
+function get_current(killit){
+  $.getJSON('/current_track', {}, function(data){
+    replace_current(data, killit)
+  })
+}
+
+setInterval('get_current(false)', 5000)
 
 $(".library-item .name").live("click", function(){
 	$.getJSON('/show_dir', {dir: $(this).html()}, function(data){
@@ -24,13 +30,13 @@ $(".library-item .add").live("click", function(){
 
 $(".playlist-item").live("click", function(){
   $.getJSON('/switch_track', {pos: $(this).attr("id")}, function(data){
-    replace_current(data)
+    replace_current(data, true)
   })
 })
 
 $(".controls span.control").live("click", function(){
   $.getJSON("/controls/" + $(this).attr("id"), {}, function(data){
-    replace_current(data)
+    replace_current(data, true)
   })
 })
 
@@ -45,14 +51,15 @@ function replace_library_view(data){
   lib.empty()
   lib.append('<li class="library-item"><span class="name">..</span></li>')
   $.each(data, function(index, item){
-    lib.append('<li class="library-item"><span class="name">' + item + '</span><span class="add">+</span></li>')
+    lib.append('<li class="library-item"></span><span class="add">+</span><span class="name">' + item + '</li>')
   })
 }
 
-function replace_current(data){
+function replace_current(data, killit){
   $("#current_title").html(data.title)
   $("#current_artist").html(data.artist)
   $("#current_album").html(data.album)
+  $("#current_time").html(data.elapsed + "/" + data.total)
   if(data.playing){
     $("#play").hide()
     $("#pause").show()
@@ -61,7 +68,9 @@ function replace_current(data){
     $("#pause").hide()
     $("#play").show()
   }
-  kill_player()
+  if(killit == true){
+    kill_player()
+  }
 }
 
 function replace_playlist(data){
@@ -81,6 +90,7 @@ function restart_player()
 {
   setTimeout("kill_player()",8000);
 }
+
 function kill_player(){
   var replace = $("#player").html()
   $("#player").empty()

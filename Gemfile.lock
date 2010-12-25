@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/babney/mpc.git
-  revision: e2e453ea99e2da03722da71c143356b7e4538081
+  revision: 0a5f32c4d50bb86ed13b5f0e540944e7b4c4b669
   specs:
     mpc (0.8)
       rubytree
@@ -14,7 +14,7 @@ GEM
     sinatra (1.1.0)
       rack (~> 1.1)
       tilt (~> 1.1)
-    tilt (1.1)
+    tilt (1.2.1)
 
 PLATFORMS
   ruby
