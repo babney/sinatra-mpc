@@ -28,7 +28,13 @@ $(".library-item .add").live("click", function(){
   })
 })
 
-$(".playlist-item").live("click", function(){
+$(".playlist-item .remove").live("click", function(){
+  $.getJSON('/remove_from_playlist', {pos: $(this).parent().find(".name").attr("id")}, function(data){
+    replace_playlist(data)
+  })
+})
+
+$(".playlist-item .name").live("click", function(){
   $.getJSON('/switch_track', {pos: $(this).attr("id")}, function(data){
     replace_current(data, true)
   })
@@ -59,7 +65,7 @@ function replace_current(data, killit){
   $("#current_title").html(data.title)
   $("#current_artist").html(data.artist)
   $("#current_album").html(data.album)
-  $("#current_time").html(data.elapsed + "/" + data.total)
+  $("#current_time").html(data.time)
   if(data.playing){
     $("#play").hide()
     $("#pause").show()
@@ -78,7 +84,7 @@ function replace_playlist(data){
   console.log(playlist)
   playlist.empty()
   $.each(data, function(index, playlist_item){
-    playlist.append('<li class="playlist-item" id="'
+    playlist.append('<li class="playlist-item"><span class="remove">-</span><span class="name" id="'
     + playlist_item.pos + '">'
     + playlist_item.artist + ' - '
     + playlist_item.title + ' - '
@@ -95,5 +101,5 @@ function kill_player(){
   var replace = $("#player").html()
   $("#player").empty()
   $("#player").html(replace)
-  $("#player_audio")[0].play()
+//  $("#player_audio")[0].play()
 }

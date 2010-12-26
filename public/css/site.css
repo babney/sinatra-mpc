@@ -4,7 +4,9 @@
 .controls span{padding:10px;}
 .playlist, .library {height:300px; width:400px; overflow:scroll;overflow-x: hidden; float:left;}
 .playlist ul, .library ul {list-style-type:none;}
-.playlist li, .library li, .controls span {cursor:pointer}
-.playlist li:hover, .library li:hover {text-decoration: underline;}
-.library .add {margin-right:10px;}
-.library .add:hover{background:yellow}
+.playlist li, .library li {padding-bottom:6px;}
+.name, .add, .remove, .controls span {cursor:pointer}
+.playlist li .name:hover, .library li .name:hover {text-decoration: underline;}
+.library .add, .playlist .remove {margin-right:10px; padding:0px 5px; border:2px solid black; border-radius:5px;}
+.library .add:hover {background:green; color:white;}
+.playlist .remove:hover {background:red; color:white;}

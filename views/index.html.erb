@@ -13,11 +13,21 @@
       <p id="current_time"></p>
     </div>
     <div class="player">
-      <span id="player">
-        <audio id="player_audio" autoplay="" loop="">
-          <source src=<%= STREAM_URL %> type="audio/ogg; codecs=vorbis"/>
-        </audio>
-      </span>
+      <% if HTML5_AUDIO == true %>
+        <span id="player">
+          <audio id="player_audio" autoplay="false" loop="">
+            <source src=<%= STREAM_URL %> type="audio/ogg; codecs=vorbis"/>
+          </audio>
+        </span>
+      <% else %>
+        <span id="applet">
+          <applet code="com.fluendo.player.Cortado.class" archive="cortado_latest.jar" width="0" height="0">
+            <param name="url" value="<%=STREAM_URL%>"/> 
+            <param name="video" value="false"/>
+            <param name="bufferSize" value=16 />
+          </applet>
+        </span>
+      <% end %>
     </div>
     <div class="controls">
       <span class="control" id="previous">&lt;&lt;</span>
