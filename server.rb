@@ -29,6 +29,7 @@ get '/controls/:control' do
   if params[:control].match(/next|previous|stop|play|pause/)
     eval("@mpc.#{params[:control]}")
   end
+  @mpc.shutdown!
   send_current_track
 end
 
@@ -39,19 +40,24 @@ end
 get '/current_playlist' do
   content_type :json
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  @mpc.current_playlist_songs.to_json
+  songs = @mpc.current_playlist_songs
+  @mpc.shutdown!
+  songs.to_json
 end
 
 get '/switch_track' do
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
   @mpc.seek(0,params[:pos])
+  @mpc.shutdown!
   send_current_track
 end
 
 get '/remove_from_playlist' do
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
   @mpc.delete_song(params[:pos])
-  @mpc.current_playlist_songs.to_json
+  songs = @mpc.current_playlist_songs
+  @mpc.shutdown!
+  songs.to_json
 end
 
 get '/show_dir' do
@@ -106,7 +112,9 @@ get '/add_to_playlist' do
   addme = fixme.join("/")
   puts "trying to add #{addme}"
   @mpc.add_to_playlist(addme)
-  @mpc.current_playlist_songs.to_json
+  songs = @mpc.current_playlist_songs
+  @mpc.shutdown!
+  songs.to_json
 end
 
 get '/clear_playlist' do
@@ -114,7 +122,9 @@ get '/clear_playlist' do
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
   @mpc.clear!
   #should be empty now
-  @mpc.current_playlist_songs.to_json
+  songs = @mpc.current_playlist_songs
+  @mpc.shutdown!
+  songs.to_json
 end
 
 def send_current_track
@@ -123,6 +133,7 @@ def send_current_track
   playing = @mpc.playing?
   current = @mpc.current_song
   if current.nil?
+    @mpc.shutdown!
     {:playing => playing}.to_json
   else
     time = @mpc.song_time
@@ -130,6 +141,7 @@ def send_current_track
     elapsed_str = sprintf("%d:%.2d", elapsed_i/60, elapsed_i%60)
     total_i = time.andand.split(":").andand.last.to_i || 0
     total_str = sprintf("%d:%.2d", total_i/60, total_i%60)
+    @mpc.shutdown!
     {:title => current[:title], :album => current[:album], :artist => current[:artist], :playing => playing, :time => "#{elapsed_str}/#{total_str}"}.to_json
   end
 end

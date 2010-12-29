@@ -97,9 +97,14 @@ function restart_player()
   setTimeout("kill_player()",8000);
 }
 
+$("#kill-player").live("click", function(){
+  kill_player()
+})
+
 function kill_player(){
+  console.log("AAAAIIEE!")
   var replace = $("#player").html()
   $("#player").empty()
   $("#player").html(replace)
-//  $("#player_audio")[0].play()
+  $("#player_audio")[0].play()
 }

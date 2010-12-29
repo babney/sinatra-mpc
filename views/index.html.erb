@@ -15,11 +15,12 @@
     <div class="player">
       <% if HTML5_AUDIO == true %>
         <span id="player">
-          <audio id="player_audio" autoplay="false" loop="">
+          <audio id="player_audio" autoplay="" loop="">
             <source src=<%= STREAM_URL %> type="audio/ogg; codecs=vorbis"/>
           </audio>
         </span>
       <% else %>
+        <% if false %>
         <span id="applet">
           <applet code="com.fluendo.player.Cortado.class" archive="cortado_latest.jar" width="0" height="0">
             <param name="url" value="<%=STREAM_URL%>"/> 
@@ -27,6 +28,7 @@
             <param name="bufferSize" value=16 />
           </applet>
         </span>
+        <% end %>
       <% end %>
     </div>
     <div class="controls">
@@ -36,6 +38,7 @@
       <span class="control" id="pause">||</span>
       <span class="control" id="next">&gt;&gt;</span>
       <span id="clear-playlist">clear playlist</span>
+      <span id="kill-player">restart player</span>
     </div>
     <div class="playlist">
       <ul>
