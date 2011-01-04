@@ -55,9 +55,9 @@ $("#clear-playlist").live("click", function(){
 function replace_library_view(data){
   var lib = $(".library ul")
   lib.empty()
-  lib.append('<li class="library-item"><span class="name">..</span></li>')
+  lib.append('<li class="library-item"><div class="name">..</div><div style="clear:both;"></div></li>')
   $.each(data, function(index, item){
-    lib.append('<li class="library-item"></span><span class="add">+</span><span class="name">' + item + '</li>')
+    lib.append('<li class="library-item"><div class="add">+</div><div class="name">' + item + '</div><div style="clear:both;"></div></li>')
   })
 }
 
@@ -84,11 +84,11 @@ function replace_playlist(data){
   console.log(playlist)
   playlist.empty()
   $.each(data, function(index, playlist_item){
-    playlist.append('<li class="playlist-item"><span class="remove">-</span><span class="name" id="'
+    playlist.append('<li class="playlist-item"><div class="remove">-</div><div class="name" id="'
     + playlist_item.pos + '">'
     + playlist_item.artist + ' - '
     + playlist_item.title + ' - '
-    + playlist_item.album + '</li>')
+    + playlist_item.album + '</div><div style="clear:both;"></div></li>')
   })
 }
 
