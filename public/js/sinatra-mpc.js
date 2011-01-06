@@ -62,6 +62,9 @@ function replace_library_view(data){
 }
 
 function replace_current(data, killit){
+  old_title = $("#current_title").html()
+  old_artist = $("#current_artist").html()
+  old_album = $("#current_album").html()
   $("#current_title").html(data.title)
   $("#current_artist").html(data.artist)
   $("#current_album").html(data.album)
@@ -74,7 +77,7 @@ function replace_current(data, killit){
     $("#pause").hide()
     $("#play").show()
   }
-  if(killit == true){
+  if(killit == true || old_title != data.title || old_artist != data.artist || old_album != data.album){
     kill_player()
   }
 }
