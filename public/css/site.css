@@ -8,6 +8,7 @@
 .playlist li, .library li {padding-bottom:6px;}
 .name, .add, .remove, .controls span {cursor:pointer}
 .playlist li .name:hover, .library li .name:hover {text-decoration: underline;}
-.library .add, .playlist .remove {margin-right:10px; padding:0px 5px; border:2px solid black; border-radius:5px;}
+.library .add, .playlist .remove {float:left; margin-right:10px; padding:0px 5px; border:2px solid black; border-radius:5px;}
+.playlist li .name, .library li .name{float:left;width:250px;}
 .library .add:hover {background:green; color:white;}
 .playlist .remove:hover {background:red; color:white;}
