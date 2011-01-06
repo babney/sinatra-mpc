@@ -9,15 +9,17 @@ What works:
 -clear the playlist
 -add a track or folder to the playlist
 
+What doesn't work:
+Chrome's HTML5 <audio> handler seems to choke on Ogg frames that contain a Vorbis header
+
 Requirements:
 -Sinatra
 -jQuery
+-Bundler
 -the mpc gem, (requires ruby-tree), specifically my fork of it for now which fixes a small bug and adds a 'playing?' method
--the json gem
 -an MPD server, set up to stream through icecast or the builtin streamer. Icecast seems to work better with Firefox, I think it may have something to do with MIME types but I haven't investigated it yet.
 
 TODO:
--fix "broken pipe" errors, I tried some error handling but it just breaks twice in a row in general
 -fix song-end bug
 -polling or pushing track progress and allowing the user to change the track position (jQuery-ui slider?)
 -general drying up of the code, adding config files that aren't so hacky, etc.
@@ -25,4 +27,4 @@ TODO:
 -graceful fallback to jorbis or other player for older browsers
 
 
-This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.@mpc.current_playlist_songs.to_json
+This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License. To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/ or send a letter to Creative Commons, 171 Second Street, Suite 300, San Francisco, California, 94105, USA.
