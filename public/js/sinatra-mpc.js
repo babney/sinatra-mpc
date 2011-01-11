@@ -14,7 +14,7 @@ function get_current(killit){
   })
 }
 
-setInterval('get_current(false)', 5000)
+setInterval('get_current(false)', 1000)
 
 $(".library-item .name").live("click", function(){
 	$.getJSON('/show_dir', {dir: $(this).html()}, function(data){
@@ -77,7 +77,7 @@ function replace_current(data, killit){
     $("#pause").hide()
     $("#play").show()
   }
-  if(killit == true || old_title != data.title || old_artist != data.artist || old_album != data.album){
+  if((killit == true || old_title != data.title || old_artist != data.artist || old_album != data.album)&& data.playing){
     kill_player()
   }
 }
