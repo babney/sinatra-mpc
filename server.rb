@@ -1,8 +1,8 @@
-require 'socket'
 require 'erb'
 
 #this should overwrite the defaults, I need to read up on sinatra app configuration to do this right
 begin
+  File.stat("settings.rb")
   require 'settings'
 rescue
   puts "couldn't find a settings.rb file, falling back to the defaults"
@@ -17,7 +17,6 @@ enable :sessions
 
 #ugh, this seems really dangerous but it's a lot faster than loading the library over and over.
 $library = Mpc.new(MPD_HOST, MPD_PORT).list_library
-#$mpc = Mpc.new(MPD_HOST, MPD_PORT)
 
 get '/' do
   session[:cwd] = "/" if session[:cwd].nil?
@@ -26,8 +25,8 @@ end
 
 get '/controls/:control' do
   @mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  if params[:control].match(/next|previous|stop|play|pause/)
-    eval("@mpc.#{params[:control]}")
+  if params[:control].match(/^(next|previous|stop|play|pause)$/)
+    @mpc.send(params[:control])
   end
   @mpc.shutdown!
   send_current_track
