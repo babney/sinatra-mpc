@@ -15,8 +15,15 @@ set :public, File.dirname(__FILE__) + '/public'
 
 enable :sessions
 
+def mpc_control(*args)
+  mpc = Mpc.new(MPD_HOST, MPD_PORT)
+  ret = mpc.send(*args)
+  mpc.shutdown!
+  ret
+end
+
 #ugh, this seems really dangerous but it's a lot faster than loading the library over and over.
-$library = Mpc.new(MPD_HOST, MPD_PORT).list_library
+$library = mpc_control("list_library")
 
 get '/' do
   session[:cwd] = "/" if session[:cwd].nil?
@@ -24,11 +31,9 @@ get '/' do
 end
 
 get '/controls/:control' do
-  @mpc = Mpc.new(MPD_HOST, MPD_PORT)
   if params[:control].match(/^(next|previous|stop|play|pause)$/)
-    @mpc.send(params[:control])
+    mpc_control(params[:control])
   end
-  @mpc.shutdown!
   send_current_track
 end
 
@@ -38,31 +43,22 @@ end
 
 get '/current_playlist' do
   content_type :json
-  @mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  songs = @mpc.current_playlist_songs
-  @mpc.shutdown!
-  songs.to_json
+  mpc_control("current_playlist_songs").to_json
 end
 
 get '/switch_track' do
-  @mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  @mpc.seek(0,params[:pos])
-  @mpc.shutdown!
+  mpc_control("seek", 0, params[:pos])
   send_current_track
 end
 
 get '/remove_from_playlist' do
-  @mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  @mpc.delete_song(params[:pos])
-  songs = @mpc.current_playlist_songs
-  @mpc.shutdown!
-  songs.to_json
+   mpc_control("delete_song", params[:pos])
+   mpc_control("current_playlist_songs").to_json
 end
 
 get '/show_dir' do
   content_type :json
   segments = []
-  #session[:cwd] = params[:dir]
   if params[:dir].nil?
     dir = session[:cwd]
     segments = dir.split "/"
@@ -103,44 +99,36 @@ end
 
 get '/add_to_playlist' do
   content_type :json
-  @mpc = Mpc.new(MPD_HOST, MPD_PORT)
   addme = session[:cwd] + "/" + params[:addme]
   #remove leading '/'s
   fixme = addme.split("/")
   fixme.delete("")
   addme = fixme.join("/")
   puts "trying to add #{addme}"
-  @mpc.add_to_playlist(addme)
-  songs = @mpc.current_playlist_songs
-  @mpc.shutdown!
-  songs.to_json
+  mpc_control("add_to_playlist", addme)
+  mpc_control("current_playlist_songs").to_json
 end
 
 get '/clear_playlist' do
   content_type :json
-  @mpc = Mpc.new(MPD_HOST, MPD_PORT)
-  @mpc.clear!
+
+  mpc_control("clear!")
   #should be empty now
-  songs = @mpc.current_playlist_songs
-  @mpc.shutdown!
-  songs.to_json
+  mpc_control("current_playlist_songs").to_json
 end
 
 def send_current_track
-  @mpc = Mpc.new(MPD_HOST, MPD_PORT)
   content_type :json
-  playing = @mpc.playing?
-  current = @mpc.current_song
+  playing = mpc_control("playing?")
+  current = mpc_control("current_song")
   if current.nil?
-    @mpc.shutdown!
     {:playing => playing}.to_json
   else
-    time = @mpc.song_time
+    time = mpc_control("song_time")
     elapsed_i = time.andand.split(":").andand.first.to_i || 0
     elapsed_str = sprintf("%d:%.2d", elapsed_i/60, elapsed_i%60)
     total_i = time.andand.split(":").andand.last.to_i || 0
     total_str = sprintf("%d:%.2d", total_i/60, total_i%60)
-    @mpc.shutdown!
     {:title => current[:title], :album => current[:album], :artist => current[:artist], :playing => playing, :time => "#{elapsed_str}/#{total_str}"}.to_json
   end
 end
