@@ -2,9 +2,8 @@ require 'erb'
 
 #this should overwrite the defaults, I need to read up on sinatra app configuration to do this right
 begin
-  File.stat("settings.rb")
   require 'settings'
-rescue
+rescue LoadError => ex
   puts "couldn't find a settings.rb file, falling back to the defaults"
   require 'settings-default'
 end

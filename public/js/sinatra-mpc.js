@@ -105,7 +105,6 @@ $("#kill-player").live("click", function(){
 })
 
 function kill_player(){
-  console.log("AAAAIIEE!")
   var replace = $("#player").html()
   $("#player").empty()
   $("#player").html(replace)
