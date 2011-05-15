@@ -6,6 +6,7 @@ $(document).ready(function(){
   $.getJSON('/show_dir', {}, function(data){
     replace_library_view(data)
   })
+  $("#tabs").tabs()
 })
 
 function get_current(killit){
@@ -61,6 +62,7 @@ $("#clear-playlist").live("click", function(){
 $("#submit-search").live("click", function(){
   $.getJSON('/search', {search: $("#search").val()}, function(data){
     replace_search_list(data)
+    $("#tabs").tabs("select", "#search-results")
   })
 })
 
