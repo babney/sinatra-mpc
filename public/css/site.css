@@ -1,13 +1,16 @@
 * {font-family:sans-serif}
 .container {border:4px solid #777; width:98%; border-radius:5px; margin: 5px; padding: 5px;}
-.playlist, .controls, .now-playing, .library {border:2px solid #555; width: 400px; border-radius:5px; margin:5px; padding:5px;}
+.playlist, .controls, .now-playing, .library, .search, .search-results {border:2px solid #555; width: 400px; border-radius:5px; margin:5px; padding:5px;}
 .controls span{padding:10px;}
-.playlist, .library {height:300px; width:400px; overflow:scroll;overflow-x: hidden; float:left;}
-.playlist ul, .library ul {list-style-type:none;}
-.playlist li, .library li {padding-bottom:6px;}
-.name, .add, .remove, .controls span {cursor:pointer}
+.controls, .search {height:28px;}
+.now-playing, .playlist, .library, .search-results{height:300px; overflow:scroll;overflow-x: hidden;}
+.playlist ul, .library ul, .search-results ul {list-style-type:none;}
+.playlist li, .library li, .search-results li {padding-bottom:6px;}
+.playlist .name, .library .name, .add, .remove, .controls span {cursor:pointer}
 .playlist li .name:hover, .library li .name:hover {text-decoration: underline;}
-.library .add, .playlist .remove {float:left; margin-right:10px; padding:0px 5px; border:2px solid black; border-radius:5px;}
+.add, .remove { text-align: center; width:10px; margin-right:10px; padding:0px 5px; border:2px solid black; border-radius:5px;float:left;}
 .playlist li .name, .library li .name{float:left;width:250px;}
-.library .add:hover {background:green; color:white;}
-.playlist .remove:hover {background:red; color:white;}
+.add:hover {background:green; color:white;}
+.remove:hover {background:red; color:white;}
+.right-column, .left-column {float:left;}
+.hidden {display:none;}

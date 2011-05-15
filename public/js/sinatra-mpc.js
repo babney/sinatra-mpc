@@ -16,14 +16,20 @@ function get_current(killit){
 
 setInterval('get_current(false)', 1000)
 
-$(".library-item .name").live("click", function(){
+$(".library .name").live("click", function(){
 	$.getJSON('/show_dir', {dir: $(this).html()}, function(data){
     replace_library_view(data)
   })
 })
 
-$(".library-item .add").live("click", function(){
+$(".library .add").live("click", function(){
   $.getJSON('/add_to_playlist', {addme: $(this).parent().find(".name").html()}, function(data){
+    replace_playlist(data)
+  })
+})
+
+$(".search-results .add").live("click",function(){
+  $.getJSON('/add_to_playlist_from_search', {addme: $(this).parent().find(".file").html()}, function(data){
     replace_playlist(data)
   })
 })
@@ -51,6 +57,20 @@ $("#clear-playlist").live("click", function(){
     replace_playlist(data)
   })
 })
+
+$("#submit-search").live("click", function(){
+  $.getJSON('/search', {search: $("#search").val()}, function(data){
+    replace_search_list(data)
+  })
+})
+
+function replace_search_list(data){
+  var lib = $(".search-results ul")
+  lib.empty()
+  $.each(data, function(index, item){
+    lib.append('<li class="library-item"><div class="add">+</div><div class="name">' + item.artist + " - " + item.title + " - " + item.album + '</div><div style="clear:both;"></div><div class="hidden file">' + item.file + '</div></li>')
+  })
+}
 
 function replace_library_view(data){
   var lib = $(".library ul")

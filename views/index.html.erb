@@ -6,45 +6,57 @@
 </head>
 <body>
   <div class="container">
-    <div class="now-playing">
-      <p id="current_title"></p>
-      <p id="current_artist"></p>
-      <p id="current_album"></p>
-      <p id="current_time"></p>
+    <div class="left-column">
+      <div class="now-playing">
+       <p id="current_title"></p>
+       <p id="current_artist"></p>
+       <p id="current_album"></p>
+       <p id="current_time"></p>
+     </div>
+     <div class="player">
+       <% if AUDIO == "html5" %>
+         <span id="player">
+           <audio id="player_audio" autoplay="" loop="">
+             <source src=<%= STREAM_URL %> type="audio/ogg; codecs=vorbis"/>
+           </audio>
+         </span>
+       <% elsif AUDIO == "java" %>
+         <span id="applet">
+           <applet code="com.fluendo.player.Cortado.class" archive="cortado_latest.jar" width="0" height="0">
+             <param name="url" value="<%=STREAM_URL%>"/> 
+              <param name="video" value="false"/>
+             <param name="bufferSize" value=16 />
+           </applet>
+         </span>
+       <% end %>
+     </div>
+     <div class="controls">
+       <span class="control" id="previous">&lt;&lt;</span>
+       <span class="control" id="stop">[]</span>
+       <span class="control" id="play">&gt;</span>
+       <span class="control" id="pause">||</span>
+       <span class="control" id="next">&gt;&gt;</span>
+       <span id="clear-playlist">clear playlist</span>
+       <span id="kill-player">restart player</span>
+     </div>
+     <div class="playlist">
+       <ul>
+       </ul>
+     </div>
     </div>
-    <div class="player">
-      <% if AUDIO == "html5" %>
-        <span id="player">
-          <audio id="player_audio" autoplay="" loop="">
-            <source src=<%= STREAM_URL %> type="audio/ogg; codecs=vorbis"/>
-          </audio>
-        </span>
-      <% elsif AUDIO == "java" %>
-        <span id="applet">
-          <applet code="com.fluendo.player.Cortado.class" archive="cortado_latest.jar" width="0" height="0">
-            <param name="url" value="<%=STREAM_URL%>"/> 
-            <param name="video" value="false"/>
-            <param name="bufferSize" value=16 />
-          </applet>
-        </span>
-      <% end %>
-    </div>
-    <div class="controls">
-      <span class="control" id="previous">&lt;&lt;</span>
-      <span class="control" id="stop">[]</span>
-      <span class="control" id="play">&gt;</span>
-      <span class="control" id="pause">||</span>
-      <span class="control" id="next">&gt;&gt;</span>
-      <span id="clear-playlist">clear playlist</span>
-      <span id="kill-player">restart player</span>
-    </div>
-    <div class="playlist">
-      <ul>
-      </ul>
-    </div>
-    <div class="library">
-      <ul>
-      </ul>
+    <div class="right-column">
+      <div class="search-results">
+        <ul>
+        </ul>
+     </div>
+     <div class="search">
+       <input name="search" id="search" type="search"></input>
+        <button id="submit-search">Search</button>
+     </div>
+     <div class="library">
+       <ul>
+       </ul>
+     </div>
     </div>
     <div style="clear:both;"></div>
   </div>

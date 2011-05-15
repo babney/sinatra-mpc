@@ -108,12 +108,25 @@ get '/add_to_playlist' do
   mpc_control("current_playlist_songs").to_json
 end
 
+get '/add_to_playlist_from_search' do
+  content_type :json
+  addme = params[:addme]
+  puts "trying to add #{addme}"
+  mpc_control("add_to_playlist", addme)
+  mpc_control("current_playlist_songs").to_json
+end
+
 get '/clear_playlist' do
   content_type :json
 
   mpc_control("clear!")
   #should be empty now
   mpc_control("current_playlist_songs").to_json
+end
+
+get '/search' do
+  content_type :json
+  mpc_control("find", "all", params[:search]).to_json
 end
 
 def send_current_track
