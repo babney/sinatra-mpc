@@ -9,7 +9,7 @@
 .playlist .name, .library .name, .add, .remove, .controls span {cursor:pointer}
 .playlist li .name:hover, .library li .name:hover {text-decoration: underline;}
 .add, .remove { text-align: center; width:10px; margin-right:10px; padding:0px 5px; border:2px solid black; border-radius:5px;float:left;}
-.playlist li .name, .library li .name{float:left;width:250px;}
+.playlist li .name, .library li .name{float:left;}
 .add:hover {background:green; color:white;}
 .remove:hover {background:red; color:white;}
 .right-column, .left-column {float:left;}
