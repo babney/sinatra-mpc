@@ -44,7 +44,24 @@
        </ul>
      </div>
       <div class="left-column">  
-   <div class="player">
+	<div class="controls">
+          <span class="control" id="previous">&lt;&lt;</span>
+          <span class="control" id="stop">[]</span>
+          <span class="control" id="play">&gt;</span>
+          <span class="control" id="pause">||</span>
+          <span class="control" id="next">&gt;&gt;</span>
+          <span id="clear-playlist">clear playlist</span>
+          <!-- <span id="kill-player">panic</span> -->
+        </div>
+      </div>
+      <div class="right-column">
+        <div class="search">
+          <input name="search" id="search" type="search"></input>
+          <button id="submit-search">Search</button>
+        </div>
+       </div>
+  <div style="clear:both;"></div>
+     <div class="player">
      <% if AUDIO == "html5" %>
        <span id="player">
          <audio id="player_audio" autoplay="" loop="">
@@ -59,25 +76,21 @@
            <param name="bufferSize" value=16 />
          </applet>
        </span>
+     <% elsif AUDIO == "flash" %>
+	<span id="flashplayer">
+	<!-- BEGINS: AUTO-GENERATED FFMP3 CODE -->
+<object width="191" height="46" bgcolor="#FFFFFF">
+<param name="movie" value="ffmp3-config.swf" />
+<param name="flashvars" value="url=<%=STREAM_URL%>&lang=en&codec=ogg&volume=100&autoplay=true&traking=false&jsevents=true&skin=ffmp3-compact.xml&title=stuff" />
+<param name="wmode" value="window" />
+<param name="allowscriptaccess" value="always" />
+<param name="scale" value="noscale" />
+<embed src="ffmp3-config.swf" flashvars="url=<%=STREAM_URL%>&lang=en&codec=ogg&volume=100&autoplay=true&traking=false&jsevents=true&skin=ffmp3-compact.xml&title=stuff" width="191" scale="noscale" height="46" wmode="window" bgcolor="#FFFFFF" allowscriptaccess="always" type="application/x-shockwave-flash" />
+</object>
+	</span>
+<!-- ENDS: AUTO-GENERATED FFMP3 CODE -->
      <% end %>
    </div>
-   <div class="controls">
-     <span class="control" id="previous">&lt;&lt;</span>
-     <span class="control" id="stop">[]</span>
-     <span class="control" id="play">&gt;</span>
-     <span class="control" id="pause">||</span>
-     <span class="control" id="next">&gt;&gt;</span>
-     <span id="clear-playlist">clear playlist</span>
-     <span id="kill-player">panic</span>
-   </div>
-  </div>
-  <div class="right-column">
-   <div class="search">
-     <input name="search" id="search" type="search"></input>
-      <button id="submit-search">Search</button>
-   </div>
-  </div>
-  <div style="clear:both;"></div>
   </div>
  </div>
 </body>

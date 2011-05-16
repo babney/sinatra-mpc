@@ -1,0 +1,8 @@
+﻿<ffmp3-skin folder="ffmp3-compact">
+  <bg image="bg.png" x="0" y="0" />
+  <play image="play.jpg" x="8" y="14" clickimage="playclick.jpg" />
+  <stop image="stop.jpg" x="25" y="14" clickimage="stopclick.jpg" />
+  <text x="95" y="15" width="85" height="22" color="#ffffff" font="arial" size="11" />
+  <volume x="56" y="16" width="29" height="15" color1="#39bdff" color2="#9c9e9f" barwidth="2" barStep="4" mode="bars" />
+  <status imagePlay="statusplay.png" imageStop="statusstop.png" x="91" y="16" />
+</ffmp3-skin>

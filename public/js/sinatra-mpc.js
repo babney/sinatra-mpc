@@ -43,13 +43,13 @@ $(".playlist-item .remove").live("click", function(){
 
 $(".playlist-item .name").live("click", function(){
   $.getJSON('/switch_track', {pos: $(this).attr("id")}, function(data){
-    replace_current(data, true)
+    replace_current(data, false)
   })
 })
 
 $(".controls span.control").live("click", function(){
   $.getJSON("/controls/" + $(this).attr("id"), {}, function(data){
-    replace_current(data, true)
+    replace_current(data, false)
   })
 })
 
@@ -99,10 +99,19 @@ function replace_current(data, killit){
     $("#pause").hide()
     $("#play").show()
   }
-  if((killit == true || old_title != data.title || old_artist != data.artist || old_album != data.album)&& data.playing){
+  //if((killit == true || old_title != data.title || old_artist != data.artist || old_album != data.album)&& data.playing){
+    if(killit == true){
     kill_player()
   }
 }
+
+function get_playlist(){
+  $.getJSON('/current_playlist', {}, function(data){
+    replace_playlist(data)
+  })
+}
+
+setInterval('get_playlist()', 10000)
 
 function replace_playlist(data){
   var playlist = $(".playlist ul")
@@ -127,8 +136,8 @@ $("#kill-player").live("click", function(){
 })
 
 function kill_player(){
-  var replace = $("#player").html()
-  $("#player").empty()
-  $("#player").html(replace)
-  $("#player_audio")[0].play()
+  var replace = $("#flashplayer").html()
+  $("#flashplayer").empty()
+  $("#flashplayer").html(replace)
+  //$("#player_audio")[0].play()
 }
