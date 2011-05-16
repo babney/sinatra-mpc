@@ -14,4 +14,4 @@
 .remove:hover {background:red; color:white;}
 .right-column, .left-column {float:left;}
 .hidden {display:none;}
-.player {position:absolute;left:-2000px;}
+.player {position:absolute;left:-2000px;top:100px;}
