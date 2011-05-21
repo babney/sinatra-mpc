@@ -7,6 +7,12 @@ $(document).ready(function(){
     replace_library_view(data)
   })
   $("#tabs").tabs()
+  init_slider()
+  $('.controls li').hover(
+  function(){$(this).addClass('ui-state-hover'); },
+ 	function() { $(this).removeClass('ui-state-hover'); }
+)
+
 })
 
 function get_current(killit){
@@ -47,7 +53,7 @@ $(".playlist-item .name").live("click", function(){
   })
 })
 
-$(".controls span.control").live("click", function(){
+$(".controls li.control").live("click", function(){
   $.getJSON("/controls/" + $(this).attr("id"), {}, function(data){
     replace_current(data, false)
   })
@@ -91,6 +97,7 @@ function replace_current(data, killit){
   $("#current_artist").html(data.artist)
   $("#current_album").html(data.album)
   $("#current_time").html(data.time)
+  update_slider(data.time)
   if(data.playing){
     $("#play").hide()
     $("#pause").show()
@@ -115,7 +122,6 @@ setInterval('get_playlist()', 10000)
 
 function replace_playlist(data){
   var playlist = $(".playlist ul")
-  console.log(playlist)
   playlist.empty()
   $.each(data, function(index, playlist_item){
     playlist.append('<li class="playlist-item"><div class="remove">-</div><div class="name" id="'
@@ -140,4 +146,25 @@ function kill_player(){
   $("#flashplayer").empty()
   $("#flashplayer").html(replace)
   //$("#player_audio")[0].play()
+}
+
+function init_slider(){
+  $("#slider").slider({
+    stop: function(event, ui) {
+      $.getJSON('/seek_to_time', {time: $("#slider").slider("option", "value")})
+    }
+  })
+}
+
+function update_slider(time){
+  //need to break this up. maybe I should just send seconds up from sinatra
+  times = time.split("/")
+  elapsed = to_seconds(times[0])
+  total = to_seconds(times[1])
+  $("#slider").slider("option", "max", total)
+  $("#slider").slider("option", "value", elapsed)
+}
+
+function to_seconds(min_sec){
+  return(Number(min_sec.split(":")[0])*60 + Number(min_sec.split(":")[1]))
 }

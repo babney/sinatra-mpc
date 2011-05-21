@@ -30,6 +30,7 @@
        <p id="current_artist"></p>
        <p id="current_album"></p>
        <p id="current_time"></p>
+       <p id="slider"></p>
      </div>
      <div class="playlist" id="playlist">
        <ul>
@@ -45,13 +46,22 @@
      </div>
       <div class="left-column">  
 	<div class="controls">
-          <span class="control" id="previous">&lt;&lt;</span>
-          <span class="control" id="stop">[]</span>
-          <span class="control" id="play">&gt;</span>
-          <span class="control" id="pause">||</span>
-          <span class="control" id="next">&gt;&gt;</span>
-          <span id="clear-playlist">clear playlist</span>
-          <span id="kill-player">panic</span>
+    <ul class="control-list">
+      <li class="ui-state-default ui-corner-all control" id="previous" title="previous"><span class="ui-icon ui-icon-seek-prev"></span></li>
+      <li class="ui-state-default ui-corner-all control" id="stop" title="stop"><span class="ui-icon ui-icon-stop"></span></li>
+      <li class="ui-state-default ui-corner-all control" id="play" title="play"><span class="ui-icon ui-icon-play"></span></li>
+      <li class="ui-state-default ui-corner-all control" id="pause" title="pause"><span class="ui-icon ui-icon-pause"></span></li>
+      <li class="ui-state-default ui-corner-all control" id="next" title="next"><span class="ui-icon ui-icon-seek-next"></span></li>
+      <li class="ui-state-default ui-corner-all control" id="clear-playlist" title="clear playlist"><span class="ui-icon ui-icon-eject"></span></li>
+     </ul>
+          <!-- 
+          <span class="control ui-icon-seek-prev" id="previous"></span>
+          <span class="control ui-icon-stop" id="stop"></span>
+          <span class="control ui-icon-play" id="play"></span>
+          <span class="control ui-icon-pause" id="pause"></span>
+          <span class="control ui-icon-seek-next" id="next"></span>
+          <span id="clear-playlist">clear playlist</span> -->
+          <!-- <span id="kill-player">panic</span> -->
         </div>
       </div>
       <div class="right-column">

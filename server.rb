@@ -129,6 +129,11 @@ get '/search' do
   mpc_control("find", "all", params[:search]).to_json
 end
 
+get '/seek_to_time' do
+  content_type :json
+  mpc_control("seek", params[:time]).to_json
+end
+
 def send_current_track
   content_type :json
   playing = mpc_control("playing?")
