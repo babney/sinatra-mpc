@@ -3,6 +3,7 @@
 .playlist, .controls, .now-playing, .library, .search, .search-results {border:2px solid #555; border-radius:5px; margin:5px; padding:5px;}
 .controls ul {display:inline;}
 .controls li {float:left;margin: 0 5px;}
+.controls span {margin: 4px;}
 .controls, .search {height:28px;}
 .now-playing, .playlist, .library, .search-results{height:300px; overflow:scroll;overflow-x: hidden;}
 .playlist ul, .library ul, .search-results ul, ul {list-style-type:none;}
