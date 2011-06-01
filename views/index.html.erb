@@ -1,50 +1,50 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <link href="css/site.css" rel="stylesheet" type="text/css" />
-  <link href="css/smoothness/jquery-ui-1.8.12.custom.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
-  <script type="text/javascript" src="js/jquery-ui-1.8.12.custom.min.js"></script>
-  <script type="text/javascript" src="js/sinatra-mpc.js"></script>
-  <title>Sinatra MPD client</title>
-</head>
-<body>
- <div class="container">
-  <div id="tabs">
-    <ul>
-      <li>
-        <a href="#now-playing">Now Playing</a>
-      </li>
-      <li>
-        <a href="#playlist">Playlist</a> 
-      </li>
-      <li>
-        <a href="#library">Library</a>
-      </li>
-      <li>
-        <a href="#search-results">Search</a>
-      </li>
-    </ul>
-    <div class="now-playing" id="now-playing">
-       <p id="current_title"></p>
-       <p id="current_artist"></p>
-       <p id="current_album"></p>
-       <p id="current_time"></p>
-       <p id="slider"></p>
-     </div>
-     <div class="playlist" id="playlist">
-       <ul>
-       </ul>
-     </div>
-     <div class="library" id="library">
-       <ul>
-       </ul>
-     </div>
-     <div class="search-results" id="search-results">
+  <head>
+    <link href="css/site.css" rel="stylesheet" type="text/css" />
+    <link href="css/smoothness/jquery-ui-1.8.12.custom.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="js/jquery-1.5.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery-ui-1.8.12.custom.min.js"></script>
+    <script type="text/javascript" src="js/sinatra-mpc.js"></script>
+    <title>Sinatra MPD client</title>
+  </head>
+  <body>
+    <div class="container">
+      <div id="tabs">
         <ul>
+          <li>
+            <a href="#now-playing">Now Playing</a>
+          </li>
+          <li>
+            <a href="#playlist">Playlist</a> 
+          </li>
+          <li>
+            <a href="#library">Library</a>
+          </li>
+          <li>
+            <a href="#search-results">Search</a>
+          </li>
         </ul>
-     </div>
-    </div>
+        <div class="now-playing" id="now-playing">
+          <p id="current_title"></p>
+          <p id="current_artist"></p>
+          <p id="current_album"></p>
+          <p id="current_time"></p>
+          <p id="slider"></p>
+        </div>
+        <div class="playlist" id="playlist">
+          <ul>
+          </ul>
+        </div>
+        <div class="library" id="library">
+          <ul>
+          </ul>
+        </div>
+        <div class="search-results" id="search-results">
+          <ul>
+          </ul>
+        </div>
+      </div>
       <div class="left-column">  
 	      <div class="controls">
           <ul class="control-list">
@@ -66,32 +66,32 @@
       <div style="clear:both;"></div>
       <div class="player">
         <% if AUDIO == "html5" %>
-         <span id="player">
-           <audio id="player_audio" autoplay="" loop="">
-             <source src=<%= STREAM_URL %> type="audio/ogg; codecs=vorbis"/>
-           </audio>
-         </span>
-       <% elsif AUDIO == "java" %>
-         <span id="applet">
-           <applet code="com.fluendo.player.Cortado.class" archive="cortado_latest.jar" width="0" height="0">
-             <param name="url" value="<%=STREAM_URL%>"/> 
-             <param name="video" value="false"/>
-             <param name="bufferSize" value=16 />
-           </applet>
-         </span>
-       <% elsif AUDIO == "flash" %>
-  	    <span id="flashplayer">
-  	      <!-- BEGINS: AUTO-GENERATED FFMP3 CODE -->
-          <object width="191" height="46" bgcolor="#FFFFFF">
-          <param name="movie" value="ffmp3-config.swf" />
-          <param name="flashvars" value="url=<%=STREAM_URL%>&lang=en&codec=ogg&volume=100&autoplay=true&tracking=false&jsevents=true&skin=ffmp3-compact.xml&title=stuff" />
-          <param name="wmode" value="window" />
-          <param name="allowscriptaccess" value="always" />
-          <param name="scale" value="noscale" />
-          <embed src="ffmp3-config.swf" flashvars="url=<%=STREAM_URL%>&lang=en&codec=ogg&volume=100&autoplay=true&tracking=false&jsevents=true&skin=ffmp3-compact.xml&title=stuff" width="191" scale="noscale" height="46" wmode="window" bgcolor="#FFFFFF" allowscriptaccess="always" type="application/x-shockwave-flash" />
-          </object>
-          <!-- ENDS: AUTO-GENERATED FFMP3 CODE -->
-  	    </span>
+          <span id="player">
+            <audio id="player_audio" autoplay="" loop="">
+              <source src=<%= STREAM_URL %> type="audio/ogg; codecs=vorbis"/>
+            </audio>
+          </span>
+        <% elsif AUDIO == "java" %>
+          <span id="applet">
+            <applet code="com.fluendo.player.Cortado.class" archive="cortado_latest.jar" width="0" height="0">
+              <param name="url" value="<%=STREAM_URL%>"/> 
+              <param name="video" value="false"/>
+              <param name="bufferSize" value=16 />
+            </applet>
+          </span>
+        <% elsif AUDIO == "flash" %>
+    	    <span id="flashplayer">
+    	      <!-- BEGINS: AUTO-GENERATED FFMP3 CODE -->
+            <object width="191" height="46" bgcolor="#FFFFFF">
+              <param name="movie" value="ffmp3-config.swf" />
+              <param name="flashvars" value="url=<%=STREAM_URL%>&lang=en&codec=ogg&volume=100&autoplay=true&tracking=false&jsevents=true&skin=ffmp3-compact.xml&title=stuff" />
+              <param name="wmode" value="window" />
+              <param name="allowscriptaccess" value="always" />
+              <param name="scale" value="noscale" />
+              <embed src="ffmp3-config.swf" flashvars="url=<%=STREAM_URL%>&lang=en&codec=ogg&volume=100&autoplay=true&tracking=false&jsevents=true&skin=ffmp3-compact.xml&title=stuff" width="191" scale="noscale" height="46" wmode="window" bgcolor="#FFFFFF" allowscriptaccess="always" type="application/x-shockwave-flash" />
+            </object>
+            <!-- ENDS: AUTO-GENERATED FFMP3 CODE -->
+    	    </span>
         <% end %>
       </div>
   </body>
